@@ -1,12 +1,16 @@
 import pytest
 from pages.branches_page import BranchesPage
+from pages.home_page import HomePage  # Додаємо імпорт головної сторінки
 
 
 class TestBranches:
 
     def test_existing_branch_search(self, driver):
+        home_page = HomePage(driver)
         branches_page = BranchesPage(driver)
-        branches_page.open()
+
+        # Використовуємо новий метод навігації
+        branches_page.open_via_menu(home_page)
 
         branches_page.select_city("Київ")
         branches_page.search_branch("1")
@@ -15,8 +19,10 @@ class TestBranches:
         assert results_count > 0, "БАГ! Очікували знайти відділення №1 у місті Київ, але список порожній."
 
     def test_nonexistent_branch_search(self, driver):
+        home_page = HomePage(driver)
         branches_page = BranchesPage(driver)
-        branches_page.open()
+
+        branches_page.open_via_menu(home_page)
 
         branches_page.select_city("Київ")
 
