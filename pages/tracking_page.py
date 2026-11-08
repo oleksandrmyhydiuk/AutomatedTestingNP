@@ -1,11 +1,22 @@
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 from pages.base_page import BasePage
+
 
 class TrackingPage(BasePage):
     STATUS_HEADING = (By.XPATH, "//h1[contains(text(), 'Відстежити посилку')]")
     NOT_FOUND_BLOCK = (By.XPATH, "//*[contains(text(), 'не знайшли посилку') or contains(text(), 'РЕЗУЛЬТАТІВ ПОШУКУ НЕМАЄ') or contains(text(), 'Не знайдено')]")
 
+    def _wait_for_tracking_result(self):
+        try:
+            self.wait.until(
+                lambda d: bool(d.find_elements(*self.NOT_FOUND_BLOCK) or d.find_elements(*self.STATUS_HEADING))
+            )
+        except TimeoutException:
+            pass
+
     def get_parcel_status(self):
+        self._wait_for_tracking_result()
         for locator in (self.NOT_FOUND_BLOCK, self.STATUS_HEADING):
             elements = self.driver.find_elements(*locator)
             for element in elements:
@@ -16,6 +27,7 @@ class TrackingPage(BasePage):
         return self.driver.find_element(By.TAG_NAME, "body").text.strip()[:200]
 
     def get_error_text(self):
+        self._wait_for_tracking_result()
         elements = self.driver.find_elements(*self.NOT_FOUND_BLOCK)
         for element in elements:
             text = element.text.strip()
@@ -26,3 +38,4 @@ class TrackingPage(BasePage):
             return text
 
         return "Не знайдено посилку за таким номером"
+

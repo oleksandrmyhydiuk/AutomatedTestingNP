@@ -11,7 +11,7 @@ class HomePage(BasePage):
     BRANCHES_MENU_LINK = (By.XPATH, "//a[contains(text(), 'Відділення') or contains(text(), 'Мережа')]")
 
     def open(self):
-        self.driver.get("https://novaposhta.ua/")
+        self.open_url(self.BASE_URL)
 
     def _get_tracking_input(self):
         # Prefer the old locator first, then fallback to the currently visible field.
@@ -25,14 +25,11 @@ class HomePage(BasePage):
 
     def search_tracking_number(self, tracking_number):
         input_element = self._get_tracking_input()
-        input_element.send_keys(Keys.CONTROL + "a")
-        input_element.send_keys(Keys.BACKSPACE)
-
         tracking_value = (tracking_number or "").strip()
+        self.clear_and_type(input_element, tracking_value)
         if not tracking_value:
             return
 
-        input_element.send_keys(tracking_value)
         input_element.send_keys(Keys.ENTER)
 
     # Додаємо метод переходу

@@ -24,16 +24,14 @@ class BranchesPage(BasePage):
             time.sleep(2)
         except Exception:
             # The new site no longer exposes a stable branches route/selector; keep session on homepage.
-            self.driver.get("https://novaposhta.ua/")
+            self.open_url(self.BASE_URL)
             time.sleep(2)
 
     def select_city(self, city_name):
         self.selected_city = city_name
         try:
             city_field = self.wait_for_element(self.CITY_INPUT)
-            city_field.send_keys(Keys.CONTROL + "a")
-            city_field.send_keys(Keys.BACKSPACE)
-            city_field.send_keys(city_name)
+            self.clear_and_type(city_field, city_name)
             time.sleep(1)
             city_field.send_keys(Keys.ENTER)
             time.sleep(1)
@@ -45,9 +43,7 @@ class BranchesPage(BasePage):
         self.last_branch_number = str(branch_number).strip()
         try:
             branch_field = self.wait_for_element(self.BRANCH_INPUT)
-            branch_field.send_keys(Keys.CONTROL + "a")
-            branch_field.send_keys(Keys.BACKSPACE)
-            branch_field.send_keys(self.last_branch_number)
+            self.clear_and_type(branch_field, self.last_branch_number)
             branch_field.send_keys(Keys.ENTER)
             time.sleep(2)
         except (TimeoutException, NoSuchElementException):
