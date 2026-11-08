@@ -1,9 +1,9 @@
 # Nova Poshta UI Test Automation (`AutomatedTestingNP`)
 
 [![Nova Poshta UI Tests](https://github.com/oleksandrmyhydiuk/AutomatedTestingNP/actions/workflows/main.yml/badge.svg)](https://github.com/oleksandrmyhydiuk/AutomatedTestingNP/actions/workflows/main.yml)
-![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
-![Selenium](https://img.shields.io/badge/Selenium-4.19.0-43B02A?logo=selenium&logoColor=white)
-![Pytest](https://img.shields.io/badge/Pytest-8.1.1-0A9EDC?logo=pytest&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB.svg?logo=python&logoColor=white)
+![Selenium](https://img.shields.io/badge/Selenium-4.19.0-43B02A.svg?logo=selenium&logoColor=white)
+![Pytest](https://img.shields.io/badge/Pytest-8.1.1-0A9EDC.svg?logo=pytest&logoColor=white)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Automated End-to-End (E2E) UI testing suite for the [Nova Poshta](https://novaposhta.ua/) web platform, built with **Python**, **Selenium WebDriver 4**, and **Pytest** following the **Page Object Model (POM)** design pattern.
