@@ -3,6 +3,9 @@ name: Nova Poshta UI Tests
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -21,6 +24,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
@@ -28,12 +32,18 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Pytest and Generate HTML Report
-        run: pytest --html=index.html --self-contained-html
+        run: pytest --html=reports/index.html --self-contained-html
+
+      - name: Upload HTML Test Report Artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pytest-html-report
+          path: reports/index.html
 
       - name: Deploy Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
-        if: always()
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
-          publish_files: index.html
+          publish_dir: ./reports
